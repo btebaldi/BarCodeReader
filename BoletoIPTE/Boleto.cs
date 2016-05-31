@@ -81,7 +81,12 @@ namespace BoletoIPTE
             // Calculo do resto da divisao.
             resto = soma % 10;
 
-            digitoverificador = 10 - resto;
+            if (resto == 0)
+            { digitoverificador = 0; }
+            else
+            {
+                digitoverificador = 10 - resto;
+            }
 
             return digitoverificador;
 
@@ -138,6 +143,6 @@ namespace BoletoIPTE
             return retorno;
         }
 
-       
+
     }
 }
