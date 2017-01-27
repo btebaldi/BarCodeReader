@@ -13,6 +13,7 @@ namespace BoletoIPTE
     public partial class Form1 : Form
     {
         List<Boleto> _lstBoleto = new List<Boleto>();
+        BindingSource bs = new BindingSource();
 
         public Form1()
         {
@@ -20,7 +21,7 @@ namespace BoletoIPTE
             labelInfo.Text = "";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonRead_Click(object sender, EventArgs e)
         {
             try
             {
@@ -30,9 +31,9 @@ namespace BoletoIPTE
                 _lstBoleto.Add(myBoleto);
 
                 // Change the DataSource.
-                listBox_IPTE.DataSource = null;
-                listBox_IPTE.DisplayMember = "IPTE_UI";
-                listBox_IPTE.DataSource = _lstBoleto;
+                UpdateDataSource();
+
+
             }
             catch (Exception ex)
             { MessageBox.Show("Erro: " + ex.Message); }
@@ -43,15 +44,20 @@ namespace BoletoIPTE
             }
         }
 
-        //private void listBox_IPTE_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    int index = this.listBox_IPTE.IndexFromPoint(e.Location);
-        //    if (index != System.Windows.Forms.ListBox.NoMatches)
-        //    {
-        //    //    MessageBox.Show(_lstBoleto[index].ToString());
-        //        labelInfo.Text = _lstBoleto[index].ToString();
-        //    }
-        //}
+        private void InitializeListBox()
+        {
+            bs.DataSource = _lstBoleto;
+
+            listBox_IPTE.DisplayMember = "IPTE_UI";
+            listBox_IPTE.DataSource = bs;
+        }
+
+        private void UpdateDataSource()
+        {
+            listBox_IPTE.DataSource = null;
+            listBox_IPTE.DataSource = _lstBoleto;
+            listBox_IPTE.DisplayMember = "IPTE_UI";
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -67,7 +73,7 @@ namespace BoletoIPTE
         {
             if ((e.KeyCode == Keys.Enter) && (chk_AutoInsert.Checked))
             {
-                button1_Click(this, new EventArgs());
+                buttonRead_Click(this, new EventArgs());
             }
         }
 
@@ -76,6 +82,15 @@ namespace BoletoIPTE
             if (listBox_IPTE.SelectedIndex != -1)
             {
                 labelInfo.Text = _lstBoleto[listBox_IPTE.SelectedIndex].Informacoes();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (listBox_IPTE.SelectedIndex != -1)
+            {
+                _lstBoleto.RemoveAt(listBox_IPTE.SelectedIndex);
+                UpdateDataSource();
             }
         }
     }

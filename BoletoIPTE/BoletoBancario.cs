@@ -112,11 +112,9 @@ namespace BoletoIPTE
             //Para se obter o Fator de Vencimento temos que calcular o número de dias entre a data base e a data do vencimento
             //(a data de vencimento menos a data base será igual ao fator).
 
-            DateTime myDate = new DateTime();
             DateTime dataBase = new DateTime(1997, 10, 07);
 
             int dias = Convert.ToInt32(_fatorVencimento);
-
 
             return dataBase.AddDays(dias);
         }
